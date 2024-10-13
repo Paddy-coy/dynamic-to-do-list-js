@@ -7,14 +7,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Load existing tasks from localStorage
     function loadTasks() {
-        if (tasks.length > 0) {
-            tasks.forEach(task => addTask(task, false)); // false indicates not to save to localStorage again
-        }
+        tasks.forEach(task => addTask(task, false)); // Load tasks without saving them again
     }
 
     // Function to add a task
     function addTask(taskText, save = true) {
-        // Trim the input value
+        // Retrieve and trim the input value
         const trimmedTaskText = taskText.trim();
 
         // Check if the taskText is empty
@@ -32,11 +30,12 @@ document.addEventListener('DOMContentLoaded', () => {
         removeButton.textContent = 'Remove';
         removeButton.className = 'remove-btn';
         
+        // Assign onclick event to remove button
         removeButton.onclick = () => {
-            li.remove();
+            li.remove(); // Remove the list item from the DOM
             if (save) {
-                tasks = tasks.filter(task => task !== trimmedTaskText);
-                updateLocalStorage();
+                tasks = tasks.filter(task => task !== trimmedTaskText); // Update tasks array
+                updateLocalStorage(); // Update local storage
             }
         };
 
@@ -46,8 +45,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Save to local storage if specified
         if (save) {
-            tasks.push(trimmedTaskText);
-            updateLocalStorage();
+            tasks.push(trimmedTaskText); // Add task to tasks array
+            updateLocalStorage(); // Save to local storage
         }
 
         // Clear the input field
@@ -56,14 +55,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Update local storage with current tasks
     function updateLocalStorage() {
-        localStorage.setItem('tasks', JSON.stringify(tasks));
+        localStorage.setItem('tasks', JSON.stringify(tasks)); // Save tasks to local storage
     }
 
     // Event listeners
-    addButton.addEventListener('click', () => addTask(taskInput.value));
+    addButton.addEventListener('click', () => addTask(taskInput.value)); // Add task on button click
     taskInput.addEventListener('keypress', (event) => {
         if (event.key === 'Enter') {
-            addTask(taskInput.value);
+            addTask(taskInput.value); // Add task on Enter key press
         }
     });
 
